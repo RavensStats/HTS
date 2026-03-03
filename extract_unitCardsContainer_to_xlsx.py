@@ -48,7 +48,7 @@ def _split_set_abbr_number(base):
 
 INPUT_DIR = "unit_html_selenium"
 OUTPUT_FILE = "Extracted_Heroclix.xlsx"
-MAX_CLICKS = 12  # Maximum dial clicks (columns) to capture
+MAX_CLICKS = 30  # Maximum dial clicks (columns) to capture
 
 # Known improved ability SVG stems, in display order
 IMPROVED_MOVEMENT_ABILITIES = [
@@ -193,10 +193,12 @@ def cs_type(img):
 
 # ---------------------------------------------------------------------------
 # Helper: dial row -> values + powers (padded to MAX_CLICKS each)
+# Accepts either a single row element or a list of <td> elements directly.
 # ---------------------------------------------------------------------------
-def extract_dial_row(row, num_clicks):
+def extract_dial_row(row_or_tds, num_clicks):
     values, powers = [], []
-    for td in row.find_all("td")[:num_clicks]:
+    tds = row_or_tds if isinstance(row_or_tds, list) else row_or_tds.find_all("td")
+    for td in tds[:num_clicks]:
         values.append(td.get_text(strip=True))
         power = ""
         title = td.get("data-mdb-original-title", "")
@@ -305,6 +307,7 @@ _scratch.append(["element_path", "element_name", "attribute", "value", "Team Abi
 # Units sheet - one row per unit
 UNIT_HEADERS = [
     "Set Abbreviation", "Set Name", "Set Number",
+    "Unit Name", "Base Size",
     "Starting Line 1", "Starting Line 2", "Starting Line 3", "Starting Line 4",
     "Starting Line 5", "Starting Line 6", "Starting Line 7", "Starting Line 8",
     "Starting Line 9", "Starting Line 10",
@@ -400,6 +403,13 @@ for txt_filename in txt_files:
     rng_el = unit_cards_container.find("div", class_="largeCardRange")
     range_val = rng_el.get_text(strip=True) if rng_el else ""
 
+    name_el = unit_cards_container.find("div", id="largeCardName")
+    unit_name_val = name_el.get_text(strip=True) if name_el else ""
+
+    dim_el = unit_cards_container.find("div", id="cardDimensions")
+    oval_el = dim_el.find("div", class_="cardDimensionsOval") if dim_el else None
+    base_size_val = oval_el.get_text(strip=True) if oval_el else "1x1"
+
     cs_imgs = unit_cards_container.find_all("img", class_="largeCardCombatSymbolImg")
     movement_type_val = cs_type(cs_imgs[0]) if len(cs_imgs) > 0 else ""
     attack_type_val   = cs_type(cs_imgs[1]) if len(cs_imgs) > 1 else ""
@@ -433,32 +443,40 @@ for txt_filename in txt_files:
         point_values.append("")
 
     # Dial extraction
+    # Units with long dials split clicks across multiple largeCardDialTable elements
+    # (e.g. 12 + 3 = 15 clicks).  Collect all TDs per stat row across every table.
     starting_line_clicks = []
     dial_row_data = []
-    dial_table = unit_cards_container.find("table", class_="largeCardDialTable")
-    if dial_table:
-        rows = dial_table.find_all("tr", class_="largeCardDialRow")
-        if len(rows) >= 5:
-            num_clicks = min(len(rows[1].find_all("td")), MAX_CLICKS)
-            for stat_idx in range(1, 5):
-                dial_row_data.extend(extract_dial_row(rows[stat_idx], num_clicks))
-            dial_table_width = 280
-            mw = re.search(r"width\s*:\s*(\d+)px", dial_table.get("style", ""))
-            if mw:
-                dial_table_width = int(mw.group(1))
-            # Starting line markers are positioned at fixed 23px steps starting at left=31px,
-            # matching a 12-column reference grid (280px / 12 ≈ 23px), regardless of actual
-            # number of clicks. Formula: click = round((left_px - 31) / 23) + 1
-            DIAL_OFFSET_PX = 31
-            DIAL_STEP_PX = 23
-            for sl in unit_cards_container.find_all("div", class_="largeCardDialStartingLine")[:10]:
-                ml = re.search(r"left\s*:\s*(\d+)px", sl.get("style", ""))
-                if ml:
-                    left_px = int(ml.group(1))
-                    click = round((left_px - DIAL_OFFSET_PX) / DIAL_STEP_PX) + 1
-                    starting_line_clicks.append(min(max(click, 1), num_clicks))
-                else:
-                    starting_line_clicks.append("")
+    dial_tables = unit_cards_container.find_all("table", class_="largeCardDialTable")
+    if dial_tables:
+        # Merge the stat rows (indices 1-4) across all tables
+        stat_tds = [[] for _ in range(4)]  # [speed_tds, attack_tds, defense_tds, damage_tds]
+        for dial_table in dial_tables:
+            rows = dial_table.find_all("tr", class_="largeCardDialRow")
+            if len(rows) >= 5:
+                for stat_idx in range(4):
+                    stat_tds[stat_idx].extend(rows[stat_idx + 1].find_all("td"))
+        num_clicks = min(len(stat_tds[0]), MAX_CLICKS)
+        dial_table = dial_tables[0]  # used below for style/starting-line calcs
+        for stat_idx in range(4):
+            dial_row_data.extend(extract_dial_row(stat_tds[stat_idx], num_clicks))
+        dial_table_width = 280
+        mw = re.search(r"width\s*:\s*(\d+)px", dial_table.get("style", ""))
+        if mw:
+            dial_table_width = int(mw.group(1))
+        # Starting line markers are positioned at fixed 23px steps starting at left=31px,
+        # matching a 12-column reference grid (280px / 12 ≈ 23px), regardless of actual
+        # number of clicks. Formula: click = round((left_px - 31) / 23) + 1
+        DIAL_OFFSET_PX = 31
+        DIAL_STEP_PX = 23
+        for sl in unit_cards_container.find_all("div", class_="largeCardDialStartingLine")[:10]:
+            ml = re.search(r"left\s*:\s*(\d+)px", sl.get("style", ""))
+            if ml:
+                left_px = int(ml.group(1))
+                click = round((left_px - DIAL_OFFSET_PX) / DIAL_STEP_PX) + 1
+                starting_line_clicks.append(min(max(click, 1), num_clicks))
+            else:
+                starting_line_clicks.append("")
     while len(starting_line_clicks) < 10:
         starting_line_clicks.append("")
     expected_dial_len = 4 * 2 * MAX_CLICKS
@@ -507,6 +525,7 @@ for txt_filename in txt_files:
     # Append Units row
     unit_row = [
         set_abbr, set_name_val, set_number,
+        unit_name_val, base_size_val,
         starting_line_clicks[0], starting_line_clicks[1],
         starting_line_clicks[2], starting_line_clicks[3],
         starting_line_clicks[4], starting_line_clicks[5],
