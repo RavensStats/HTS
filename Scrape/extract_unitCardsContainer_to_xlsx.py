@@ -183,6 +183,25 @@ def extract_improved_abilities(unit_cards_container):
 
 
 # ---------------------------------------------------------------------------
+# Helper: extract team abilities (up to 3)
+# ---------------------------------------------------------------------------
+def extract_team_abilities(unit_cards_container):
+    """Return a list of up to 3 team ability names (bold text from aria-label)."""
+    names = []
+    for div in unit_cards_container.find_all("div", class_="largeCardTeamAbility"):
+        label = div.get("aria-label", "") or div.get("data-mdb-original-title", "")
+        if label:
+            team_ability, _ = parse_aria_label(label)
+            if team_ability:
+                names.append(team_ability)
+        if len(names) >= 3:
+            break
+    while len(names) < 3:
+        names.append("")
+    return names
+
+
+# ---------------------------------------------------------------------------
 # Helper: combat symbol type from img element
 # ---------------------------------------------------------------------------
 def cs_type(img):
@@ -295,6 +314,61 @@ add_element_and_values.summary_fields = {}
 
 
 # ---------------------------------------------------------------------------
+# Sheet routing: map unit type prefix → sheet name
+# ---------------------------------------------------------------------------
+UNIT_SHEET_NAMES = [
+    "Units",
+    "Relics",
+    "Special Objects",
+    "One Shots",
+    "Tarot",
+    "Vehicles",
+    "Legacy Cards",
+    "Event",
+    "Maps",
+    "TM",
+    "Feat",
+    "BFC",
+    "ATA",
+]
+
+PREFIX_TO_UNIT_SHEET = {
+    "R":  "Relics",
+    "S":  "Special Objects",
+    "OS": "One Shots",
+    "TA": "Tarot",
+    "TC": "Tarot",
+    "TP": "Tarot",
+    "TS": "Tarot",
+    "TW": "Tarot",
+    "V":  "Vehicles",
+    "L":  "Legacy Cards",
+    "E":  "Event",
+    "M":  "Maps",
+    "TM": "TM",
+    "F":  "Feat",
+    "BF": "BFC",
+}
+
+
+def get_unit_sheet(set_number, set_abbr):
+    """Return the sheet name a unit belongs to based on set_number prefix or set_abbr."""
+    m = re.match(r'^([A-Z]+)', str(set_number))
+    prefix = m.group(1) if m else ''
+    # Longer prefixes first to avoid BF matching B etc.
+    for p in sorted(PREFIX_TO_UNIT_SHEET, key=len, reverse=True):
+        if prefix.startswith(p):
+            return PREFIX_TO_UNIT_SHEET[p]
+    if set_abbr.lower() == 'ata':
+        return 'ATA'
+    return 'Units'
+
+
+def get_dial_sheet(unit_sheet):
+    return 'Dial' if unit_sheet == 'Units' else f'{unit_sheet} Dial'
+
+
+# ---------------------------------------------------------------------------
 # Workbook setup
 # ---------------------------------------------------------------------------
 wb = openpyxl.Workbook()
@@ -304,7 +378,6 @@ _scratch = wb.active
 _scratch.title = "_scratch"
 _scratch.append(["element_path", "element_name", "attribute", "value", "Team Ability", "Description"])
 
-# Units sheet - one row per unit
 UNIT_HEADERS = [
     "Set Abbreviation", "Set Name", "Set Number",
     "Unit Name", "Base Size",
@@ -330,24 +403,33 @@ for i in range(1, 11):
 UNIT_HEADERS += [
     "Keywords", "Real Name", "Range Value",
     "Movement Type", "Attack Type", "Defense Type", "Damage Type",
+    "Team Ability 1", "Team Ability 2", "Team Ability 3",
 ]
 for _stem in IMPROVED_MOVEMENT_ABILITIES:
     UNIT_HEADERS.append(f"Improved Movement {_stem.replace('_', ' ').title()}")
 for _stem in IMPROVED_TARGETING_ABILITIES:
     UNIT_HEADERS.append(f"Improved Targeting {_stem.replace('_', ' ').title()}")
 UNIT_HEADERS.append("Number of Targets")
-ws_units = wb.create_sheet(title="Units")
-ws_units.append(UNIT_HEADERS)
 
-# Dial sheet - one row per unit, MAX_CLICKS columns per stat
+# Dial headers
 DIAL_HEADERS = ["Set Abbreviation", "Set Name", "Set Number"]
 for stat in ["Speed", "Attack", "Defense", "Damage"]:
     for i in range(1, MAX_CLICKS + 1):
         DIAL_HEADERS.append(f"{stat} Value {i}")
     for i in range(1, MAX_CLICKS + 1):
         DIAL_HEADERS.append(f"{stat} Power {i}")
-ws_dial = wb.create_sheet(title="Dial")
-ws_dial.append(DIAL_HEADERS)
+
+# Create all unit sheets and corresponding dial sheets
+ws_unit_sheets = {}
+ws_dial_sheets = {}
+for _sname in UNIT_SHEET_NAMES:
+    _ws = wb.create_sheet(title=_sname)
+    _ws.append(UNIT_HEADERS)
+    ws_unit_sheets[_sname] = _ws
+    _dname = get_dial_sheet(_sname)
+    _dws = wb.create_sheet(title=_dname)
+    _dws.append(DIAL_HEADERS)
+    ws_dial_sheets[_sname] = _dws
 
 
 # ---------------------------------------------------------------------------
@@ -401,16 +483,27 @@ for txt_filename in txt_files:
         set_name_val = si_el.get("aria-label", "").strip() or si_el.get("data-mdb-original-title", "").strip()
 
     rng_el = unit_cards_container.find("div", class_="largeCardRange")
-    range_val = rng_el.get_text(strip=True) if rng_el else ""
+    if rng_el:
+        range_val = rng_el.get_text(strip=True)
+    else:
+        # Bystander/token units use smallCardRange
+        small_rng_el = unit_cards_container.find("div", id="smallCardRange")
+        range_val = small_rng_el.get_text(strip=True) if small_rng_el else ""
 
     name_el = unit_cards_container.find("div", id="largeCardName")
     unit_name_val = name_el.get_text(strip=True) if name_el else ""
 
     dim_el = unit_cards_container.find("div", id="cardDimensions")
-    oval_el = dim_el.find("div", class_="cardDimensionsOval") if dim_el else None
-    base_size_val = oval_el.get_text(strip=True) if oval_el else "1x1"
+    base_size_val = "1x1"
+    if dim_el:
+        size_el = dim_el.find("div", class_=lambda c: c and ("cardDimensionsOval" in c or "cardDimensionsCircle" in c))
+        if size_el:
+            base_size_val = size_el.get_text(strip=True)
 
     cs_imgs = unit_cards_container.find_all("img", class_="largeCardCombatSymbolImg")
+    if not cs_imgs:
+        # Bystander/token units use smallCardCombatSymbolImg (order: speed, attack, defense, damage)
+        cs_imgs = unit_cards_container.find_all("img", class_="smallCardCombatSymbolImg")
     movement_type_val = cs_type(cs_imgs[0]) if len(cs_imgs) > 0 else ""
     attack_type_val   = cs_type(cs_imgs[1]) if len(cs_imgs) > 1 else ""
     defense_type_val  = cs_type(cs_imgs[2]) if len(cs_imgs) > 2 else ""
@@ -420,11 +513,16 @@ for txt_filename in txt_files:
     add_element_and_values(unit_cards_container)
     num_targets = str(add_element_and_values.bolt_svg_count)
 
+    # Team abilities
+    team_ability_names = extract_team_abilities(unit_cards_container)
+
     # Improved movement / targeting individual booleans
     improved_abilities = extract_improved_abilities(unit_cards_container)
 
     # Point values (one per starting line)
-    pv_container = unit_cards_container.find("div", class_="largeCardPointValues")
+    pv_container = unit_cards_container.find(
+        "div", class_=lambda c: c and "largeCardPointValues" in c
+    )
     point_values = []
     if pv_container:
         for pv_div in pv_container.find_all("div", class_="largeCardPointValue"):
@@ -542,16 +640,17 @@ for txt_filename in txt_files:
     unit_row += [
         keywords_val, real_name_val, range_val,
         movement_type_val, attack_type_val, defense_type_val, damage_type_val,
+        team_ability_names[0], team_ability_names[1], team_ability_names[2],
     ]
     for _stem in IMPROVED_MOVEMENT_ABILITIES:
         unit_row.append(improved_abilities.get(f"Improved Movement {_stem.replace('_', ' ').title()}", "False"))
     for _stem in IMPROVED_TARGETING_ABILITIES:
         unit_row.append(improved_abilities.get(f"Improved Targeting {_stem.replace('_', ' ').title()}", "False"))
     unit_row.append(num_targets)
-    ws_units.append(unit_row)
+    ws_unit_sheets[get_unit_sheet(set_number, set_abbr)].append(unit_row)
 
     # Append Dial row
-    ws_dial.append([set_abbr, set_name_val, set_number] + dial_row_data)
+    ws_dial_sheets[get_unit_sheet(set_number, set_abbr)].append([set_abbr, set_name_val, set_number] + dial_row_data)
 
     print(f"  Done: {set_abbr} {set_number}  ({set_name_val})")
 
