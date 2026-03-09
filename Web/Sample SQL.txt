@@ -1,0 +1,297 @@
+-- ============================================================
+-- Units Table
+-- ============================================================
+
+DROP TABLE IF EXISTS Dial;
+DROP TABLE IF EXISTS Units;
+CREATE TABLE Units (
+    Set_Abbreviation        VARCHAR(20)  NOT NULL,
+    Set_Name                VARCHAR(100),
+    Set_Number              VARCHAR(20)  NOT NULL,
+    Unit_Name               VARCHAR(255),
+    Base_Size               VARCHAR(20)  DEFAULT '1x1',
+
+    -- Starting Lines (up to 10)
+    Starting_Line_1         VARCHAR(10),
+    Starting_Line_2         VARCHAR(10),
+    Starting_Line_3         VARCHAR(10),
+    Starting_Line_4         VARCHAR(10),
+    Starting_Line_5         VARCHAR(10),
+    Starting_Line_6         VARCHAR(10),
+    Starting_Line_7         VARCHAR(10),
+    Starting_Line_8         VARCHAR(10),
+    Starting_Line_9         VARCHAR(10),
+    Starting_Line_10        VARCHAR(10),
+
+    -- Point Values (up to 10)
+    Point_Value_1           INT,
+    Point_Value_2           INT,
+    Point_Value_3           INT,
+    Point_Value_4           INT,
+    Point_Value_5           INT,
+    Point_Value_6           INT,
+    Point_Value_7           INT,
+    Point_Value_8           INT,
+    Point_Value_9           INT,
+    Point_Value_10          INT,
+
+    -- Traits (up to 10)
+    Trait_1                 VARCHAR(255),
+    Trait_1_Ability         TEXT,
+    Trait_2                 VARCHAR(255),
+    Trait_2_Ability         TEXT,
+    Trait_3                 VARCHAR(255),
+    Trait_3_Ability         TEXT,
+    Trait_4                 VARCHAR(255),
+    Trait_4_Ability         TEXT,
+    Trait_5                 VARCHAR(255),
+    Trait_5_Ability         TEXT,
+    Trait_6                 VARCHAR(255),
+    Trait_6_Ability         TEXT,
+    Trait_7                 VARCHAR(255),
+    Trait_7_Ability         TEXT,
+    Trait_8                 VARCHAR(255),
+    Trait_8_Ability         TEXT,
+    Trait_9                 VARCHAR(255),
+    Trait_9_Ability         TEXT,
+    Trait_10                VARCHAR(255),
+    Trait_10_Ability        TEXT,
+
+    -- Special Powers (up to 10)
+    Special_Power_1         VARCHAR(255),
+    Special_Power_Ability_1 TEXT,
+    Special_Power_Type_1    VARCHAR(50),
+    Special_Power_2         VARCHAR(255),
+    Special_Power_Ability_2 TEXT,
+    Special_Power_Type_2    VARCHAR(50),
+    Special_Power_3         VARCHAR(255),
+    Special_Power_Ability_3 TEXT,
+    Special_Power_Type_3    VARCHAR(50),
+    Special_Power_4         VARCHAR(255),
+    Special_Power_Ability_4 TEXT,
+    Special_Power_Type_4    VARCHAR(50),
+    Special_Power_5         VARCHAR(255),
+    Special_Power_Ability_5 TEXT,
+    Special_Power_Type_5    VARCHAR(50),
+    Special_Power_6         VARCHAR(255),
+    Special_Power_Ability_6 TEXT,
+    Special_Power_Type_6    VARCHAR(50),
+    Special_Power_7         VARCHAR(255),
+    Special_Power_Ability_7 TEXT,
+    Special_Power_Type_7    VARCHAR(50),
+    Special_Power_8         VARCHAR(255),
+    Special_Power_Ability_8 TEXT,
+    Special_Power_Type_8    VARCHAR(50),
+    Special_Power_9         VARCHAR(255),
+    Special_Power_Ability_9 TEXT,
+    Special_Power_Type_9    VARCHAR(50),
+    Special_Power_10        VARCHAR(255),
+    Special_Power_Ability_10 TEXT,
+    Special_Power_Type_10   VARCHAR(50),
+
+    -- General Info
+    Keywords                TEXT,
+    Real_Name               VARCHAR(255),
+    Range_Value             INT,
+    Movement_Type           VARCHAR(50),
+    Attack_Type             VARCHAR(50),
+    Defense_Type            VARCHAR(50),
+    Damage_Type             VARCHAR(50),
+    Team_Ability_1          VARCHAR(100),
+    Team_Ability_2          VARCHAR(100),
+    Team_Ability_3          VARCHAR(100),
+
+    -- Improved Movement Flags
+    Improved_Movement_Elevated          TINYINT(1) DEFAULT 0,
+    Improved_Movement_Hindering         TINYINT(1) DEFAULT 0,
+    Improved_Movement_Blocking          TINYINT(1) DEFAULT 0,
+    Improved_Movement_Destroy_Blocking  TINYINT(1) DEFAULT 0,
+    Improved_Movement_Characters        TINYINT(1) DEFAULT 0,
+    Improved_Movement_Move_Through      TINYINT(1) DEFAULT 0,
+    Improved_Movement_Water             TINYINT(1) DEFAULT 0,
+    Improved_Movement_Indoor            TINYINT(1) DEFAULT 0,
+    Improved_Movement_Outdoor           TINYINT(1) DEFAULT 0,
+
+    -- Improved Targeting Flags
+    Improved_Targeting_Elevated         TINYINT(1) DEFAULT 0,
+    Improved_Targeting_Hindering        TINYINT(1) DEFAULT 0,
+    Improved_Targeting_Blocking         TINYINT(1) DEFAULT 0,
+    Improved_Targeting_Characters       TINYINT(1) DEFAULT 0,
+    Improved_Targeting_Adjacent         TINYINT(1) DEFAULT 0,
+
+    Number_of_Targets       INT,
+
+    PRIMARY KEY (Set_Abbreviation, Set_Number)
+) ROW_FORMAT=DYNAMIC;
+
+-- ============================================================
+-- Dial Table
+-- ============================================================
+CREATE TABLE Dial (
+    Set_Abbreviation    VARCHAR(20)  NOT NULL,
+    Set_Name            VARCHAR(100),
+    Set_Number          VARCHAR(20)  NOT NULL,
+
+    -- Speed (up to 30 clicks)
+    Speed_Value_1       INT,    Speed_Power_1    TEXT,
+    Speed_Value_2       INT,    Speed_Power_2    TEXT,
+    Speed_Value_3       INT,    Speed_Power_3    TEXT,
+    Speed_Value_4       INT,    Speed_Power_4    TEXT,
+    Speed_Value_5       INT,    Speed_Power_5    TEXT,
+    Speed_Value_6       INT,    Speed_Power_6    TEXT,
+    Speed_Value_7       INT,    Speed_Power_7    TEXT,
+    Speed_Value_8       INT,    Speed_Power_8    TEXT,
+    Speed_Value_9       INT,    Speed_Power_9    TEXT,
+    Speed_Value_10      INT,    Speed_Power_10   TEXT,
+    Speed_Value_11      INT,    Speed_Power_11   TEXT,
+    Speed_Value_12      INT,    Speed_Power_12   TEXT,
+    Speed_Value_13      INT,    Speed_Power_13   TEXT,
+    Speed_Value_14      INT,    Speed_Power_14   TEXT,
+    Speed_Value_15      INT,    Speed_Power_15   TEXT,
+    Speed_Value_16      INT,    Speed_Power_16   TEXT,
+    Speed_Value_17      INT,    Speed_Power_17   TEXT,
+    Speed_Value_18      INT,    Speed_Power_18   TEXT,
+    Speed_Value_19      INT,    Speed_Power_19   TEXT,
+    Speed_Value_20      INT,    Speed_Power_20   TEXT,
+    Speed_Value_21      INT,    Speed_Power_21   TEXT,
+    Speed_Value_22      INT,    Speed_Power_22   TEXT,
+    Speed_Value_23      INT,    Speed_Power_23   TEXT,
+    Speed_Value_24      INT,    Speed_Power_24   TEXT,
+    Speed_Value_25      INT,    Speed_Power_25   TEXT,
+    Speed_Value_26      INT,    Speed_Power_26   TEXT,
+    Speed_Value_27      INT,    Speed_Power_27   TEXT,
+    Speed_Value_28      INT,    Speed_Power_28   TEXT,
+    Speed_Value_29      INT,    Speed_Power_29   TEXT,
+    Speed_Value_30      INT,    Speed_Power_30   TEXT,
+
+    -- Attack (up to 30 clicks)
+    Attack_Value_1      INT,    Attack_Power_1   TEXT,
+    Attack_Value_2      INT,    Attack_Power_2   TEXT,
+    Attack_Value_3      INT,    Attack_Power_3   TEXT,
+    Attack_Value_4      INT,    Attack_Power_4   TEXT,
+    Attack_Value_5      INT,    Attack_Power_5   TEXT,
+    Attack_Value_6      INT,    Attack_Power_6   TEXT,
+    Attack_Value_7      INT,    Attack_Power_7   TEXT,
+    Attack_Value_8      INT,    Attack_Power_8   TEXT,
+    Attack_Value_9      INT,    Attack_Power_9   TEXT,
+    Attack_Value_10     INT,    Attack_Power_10  TEXT,
+    Attack_Value_11     INT,    Attack_Power_11  TEXT,
+    Attack_Value_12     INT,    Attack_Power_12  TEXT,
+    Attack_Value_13     INT,    Attack_Power_13  TEXT,
+    Attack_Value_14     INT,    Attack_Power_14  TEXT,
+    Attack_Value_15     INT,    Attack_Power_15  TEXT,
+    Attack_Value_16     INT,    Attack_Power_16  TEXT,
+    Attack_Value_17     INT,    Attack_Power_17  TEXT,
+    Attack_Value_18     INT,    Attack_Power_18  TEXT,
+    Attack_Value_19     INT,    Attack_Power_19  TEXT,
+    Attack_Value_20     INT,    Attack_Power_20  TEXT,
+    Attack_Value_21     INT,    Attack_Power_21  TEXT,
+    Attack_Value_22     INT,    Attack_Power_22  TEXT,
+    Attack_Value_23     INT,    Attack_Power_23  TEXT,
+    Attack_Value_24     INT,    Attack_Power_24  TEXT,
+    Attack_Value_25     INT,    Attack_Power_25  TEXT,
+    Attack_Value_26     INT,    Attack_Power_26  TEXT,
+    Attack_Value_27     INT,    Attack_Power_27  TEXT,
+    Attack_Value_28     INT,    Attack_Power_28  TEXT,
+    Attack_Value_29     INT,    Attack_Power_29  TEXT,
+    Attack_Value_30     INT,    Attack_Power_30  TEXT,
+
+    -- Defense (up to 30 clicks)
+    Defense_Value_1     INT,    Defense_Power_1  TEXT,
+    Defense_Value_2     INT,    Defense_Power_2  TEXT,
+    Defense_Value_3     INT,    Defense_Power_3  TEXT,
+    Defense_Value_4     INT,    Defense_Power_4  TEXT,
+    Defense_Value_5     INT,    Defense_Power_5  TEXT,
+    Defense_Value_6     INT,    Defense_Power_6  TEXT,
+    Defense_Value_7     INT,    Defense_Power_7  TEXT,
+    Defense_Value_8     INT,    Defense_Power_8  TEXT,
+    Defense_Value_9     INT,    Defense_Power_9  TEXT,
+    Defense_Value_10    INT,    Defense_Power_10 TEXT,
+    Defense_Value_11    INT,    Defense_Power_11 TEXT,
+    Defense_Value_12    INT,    Defense_Power_12 TEXT,
+    Defense_Value_13    INT,    Defense_Power_13 TEXT,
+    Defense_Value_14    INT,    Defense_Power_14 TEXT,
+    Defense_Value_15    INT,    Defense_Power_15 TEXT,
+    Defense_Value_16    INT,    Defense_Power_16 TEXT,
+    Defense_Value_17    INT,    Defense_Power_17 TEXT,
+    Defense_Value_18    INT,    Defense_Power_18 TEXT,
+    Defense_Value_19    INT,    Defense_Power_19 TEXT,
+    Defense_Value_20    INT,    Defense_Power_20 TEXT,
+    Defense_Value_21    INT,    Defense_Power_21 TEXT,
+    Defense_Value_22    INT,    Defense_Power_22 TEXT,
+    Defense_Value_23    INT,    Defense_Power_23 TEXT,
+    Defense_Value_24    INT,    Defense_Power_24 TEXT,
+    Defense_Value_25    INT,    Defense_Power_25 TEXT,
+    Defense_Value_26    INT,    Defense_Power_26 TEXT,
+    Defense_Value_27    INT,    Defense_Power_27 TEXT,
+    Defense_Value_28    INT,    Defense_Power_28 TEXT,
+    Defense_Value_29    INT,    Defense_Power_29 TEXT,
+    Defense_Value_30    INT,    Defense_Power_30 TEXT,
+
+    -- Damage (up to 30 clicks)
+    Damage_Value_1      INT,    Damage_Power_1   TEXT,
+    Damage_Value_2      INT,    Damage_Power_2   TEXT,
+    Damage_Value_3      INT,    Damage_Power_3   TEXT,
+    Damage_Value_4      INT,    Damage_Power_4   TEXT,
+    Damage_Value_5      INT,    Damage_Power_5   TEXT,
+    Damage_Value_6      INT,    Damage_Power_6   TEXT,
+    Damage_Value_7      INT,    Damage_Power_7   TEXT,
+    Damage_Value_8      INT,    Damage_Power_8   TEXT,
+    Damage_Value_9      INT,    Damage_Power_9   TEXT,
+    Damage_Value_10     INT,    Damage_Power_10  TEXT,
+    Damage_Value_11     INT,    Damage_Power_11  TEXT,
+    Damage_Value_12     INT,    Damage_Power_12  TEXT,
+    Damage_Value_13     INT,    Damage_Power_13  TEXT,
+    Damage_Value_14     INT,    Damage_Power_14  TEXT,
+    Damage_Value_15     INT,    Damage_Power_15  TEXT,
+    Damage_Value_16     INT,    Damage_Power_16  TEXT,
+    Damage_Value_17     INT,    Damage_Power_17  TEXT,
+    Damage_Value_18     INT,    Damage_Power_18  TEXT,
+    Damage_Value_19     INT,    Damage_Power_19  TEXT,
+    Damage_Value_20     INT,    Damage_Power_20  TEXT,
+    Damage_Value_21     INT,    Damage_Power_21  TEXT,
+    Damage_Value_22     INT,    Damage_Power_22  TEXT,
+    Damage_Value_23     INT,    Damage_Power_23  TEXT,
+    Damage_Value_24     INT,    Damage_Power_24  TEXT,
+    Damage_Value_25     INT,    Damage_Power_25  TEXT,
+    Damage_Value_26     INT,    Damage_Power_26  TEXT,
+    Damage_Value_27     INT,    Damage_Power_27  TEXT,
+    Damage_Value_28     INT,    Damage_Power_28  TEXT,
+    Damage_Value_29     INT,    Damage_Power_29  TEXT,
+    Damage_Value_30     INT,    Damage_Power_30  TEXT,
+
+    PRIMARY KEY (Set_Abbreviation, Set_Number),
+    FOREIGN KEY (Set_Abbreviation, Set_Number)
+        REFERENCES Units (Set_Abbreviation, Set_Number)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+) ROW_FORMAT=DYNAMIC;
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO Units (Set_Abbreviation, Set_Name, Set_Number, Unit_Name, Base_Size, Starting_Line_1, Starting_Line_2, Starting_Line_3, Starting_Line_4, Starting_Line_5, Starting_Line_6, Starting_Line_7, Starting_Line_8, Starting_Line_9, Starting_Line_10, Point_Value_1, Point_Value_2, Point_Value_3, Point_Value_4, Point_Value_5, Point_Value_6, Point_Value_7, Point_Value_8, Point_Value_9, Point_Value_10, Trait_1, Trait_1_Ability, Trait_2, Trait_2_Ability, Trait_3, Trait_3_Ability, Trait_4, Trait_4_Ability, Trait_5, Trait_5_Ability, Trait_6, Trait_6_Ability, Trait_7, Trait_7_Ability, Trait_8, Trait_8_Ability, Trait_9, Trait_9_Ability, Trait_10, Trait_10_Ability, Special_Power_1, Special_Power_Ability_1, Special_Power_Type_1, Special_Power_2, Special_Power_Ability_2, Special_Power_Type_2, Special_Power_3, Special_Power_Ability_3, Special_Power_Type_3, Special_Power_4, Special_Power_Ability_4, Special_Power_Type_4, Special_Power_5, Special_Power_Ability_5, Special_Power_Type_5, Special_Power_6, Special_Power_Ability_6, Special_Power_Type_6, Special_Power_7, Special_Power_Ability_7, Special_Power_Type_7, Special_Power_8, Special_Power_Ability_8, Special_Power_Type_8, Special_Power_9, Special_Power_Ability_9, Special_Power_Type_9, Special_Power_10, Special_Power_Ability_10, Special_Power_Type_10, Keywords, Real_Name, Range_Value, Movement_Type, Attack_Type, Defense_Type, Damage_Type, Team_Ability_1, Team_Ability_2, Team_Ability_3, Improved_Movement_Elevated, Improved_Movement_Hindering, Improved_Movement_Blocking, Improved_Movement_Destroy_Blocking, Improved_Movement_Characters, Improved_Movement_Move_Through, Improved_Movement_Water, Improved_Movement_Indoor, Improved_Movement_Outdoor, Improved_Targeting_Elevated, Improved_Targeting_Hindering, Improved_Targeting_Blocking, Improved_Targeting_Characters, Improved_Targeting_Adjacent, Number_of_Targets)
+  VALUES ('2099', '2099', '001', 'HULK', '1x1', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'BRUTE, FUTURE', NULL, '0', 'Boot', 'Fist', 'Shield', 'Giant', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1')
+  ON DUPLICATE KEY UPDATE Set_Name=VALUES(Set_Name), Unit_Name=VALUES(Unit_Name), Base_Size=VALUES(Base_Size), Starting_Line_1=VALUES(Starting_Line_1), Starting_Line_2=VALUES(Starting_Line_2), Starting_Line_3=VALUES(Starting_Line_3), Starting_Line_4=VALUES(Starting_Line_4), Starting_Line_5=VALUES(Starting_Line_5), Starting_Line_6=VALUES(Starting_Line_6), Starting_Line_7=VALUES(Starting_Line_7), Starting_Line_8=VALUES(Starting_Line_8), Starting_Line_9=VALUES(Starting_Line_9), Starting_Line_10=VALUES(Starting_Line_10), Point_Value_1=VALUES(Point_Value_1), Point_Value_2=VALUES(Point_Value_2), Point_Value_3=VALUES(Point_Value_3), Point_Value_4=VALUES(Point_Value_4), Point_Value_5=VALUES(Point_Value_5), Point_Value_6=VALUES(Point_Value_6), Point_Value_7=VALUES(Point_Value_7), Point_Value_8=VALUES(Point_Value_8), Point_Value_9=VALUES(Point_Value_9), Point_Value_10=VALUES(Point_Value_10), Trait_1=VALUES(Trait_1), Trait_1_Ability=VALUES(Trait_1_Ability), Trait_2=VALUES(Trait_2), Trait_2_Ability=VALUES(Trait_2_Ability), Trait_3=VALUES(Trait_3), Trait_3_Ability=VALUES(Trait_3_Ability), Trait_4=VALUES(Trait_4), Trait_4_Ability=VALUES(Trait_4_Ability), Trait_5=VALUES(Trait_5), Trait_5_Ability=VALUES(Trait_5_Ability), Trait_6=VALUES(Trait_6), Trait_6_Ability=VALUES(Trait_6_Ability), Trait_7=VALUES(Trait_7), Trait_7_Ability=VALUES(Trait_7_Ability), Trait_8=VALUES(Trait_8), Trait_8_Ability=VALUES(Trait_8_Ability), Trait_9=VALUES(Trait_9), Trait_9_Ability=VALUES(Trait_9_Ability), Trait_10=VALUES(Trait_10), Trait_10_Ability=VALUES(Trait_10_Ability), Special_Power_1=VALUES(Special_Power_1), Special_Power_Ability_1=VALUES(Special_Power_Ability_1), Special_Power_Type_1=VALUES(Special_Power_Type_1), Special_Power_2=VALUES(Special_Power_2), Special_Power_Ability_2=VALUES(Special_Power_Ability_2), Special_Power_Type_2=VALUES(Special_Power_Type_2), Special_Power_3=VALUES(Special_Power_3), Special_Power_Ability_3=VALUES(Special_Power_Ability_3), Special_Power_Type_3=VALUES(Special_Power_Type_3), Special_Power_4=VALUES(Special_Power_4), Special_Power_Ability_4=VALUES(Special_Power_Ability_4), Special_Power_Type_4=VALUES(Special_Power_Type_4), Special_Power_5=VALUES(Special_Power_5), Special_Power_Ability_5=VALUES(Special_Power_Ability_5), Special_Power_Type_5=VALUES(Special_Power_Type_5), Special_Power_6=VALUES(Special_Power_6), Special_Power_Ability_6=VALUES(Special_Power_Ability_6), Special_Power_Type_6=VALUES(Special_Power_Type_6), Special_Power_7=VALUES(Special_Power_7), Special_Power_Ability_7=VALUES(Special_Power_Ability_7), Special_Power_Type_7=VALUES(Special_Power_Type_7), Special_Power_8=VALUES(Special_Power_8), Special_Power_Ability_8=VALUES(Special_Power_Ability_8), Special_Power_Type_8=VALUES(Special_Power_Type_8), Special_Power_9=VALUES(Special_Power_9), Special_Power_Ability_9=VALUES(Special_Power_Ability_9), Special_Power_Type_9=VALUES(Special_Power_Type_9), Special_Power_10=VALUES(Special_Power_10), Special_Power_Ability_10=VALUES(Special_Power_Ability_10), Special_Power_Type_10=VALUES(Special_Power_Type_10), Keywords=VALUES(Keywords), Real_Name=VALUES(Real_Name), Range_Value=VALUES(Range_Value), Movement_Type=VALUES(Movement_Type), Attack_Type=VALUES(Attack_Type), Defense_Type=VALUES(Defense_Type), Damage_Type=VALUES(Damage_Type), Team_Ability_1=VALUES(Team_Ability_1), Team_Ability_2=VALUES(Team_Ability_2), Team_Ability_3=VALUES(Team_Ability_3), Improved_Movement_Elevated=VALUES(Improved_Movement_Elevated), Improved_Movement_Hindering=VALUES(Improved_Movement_Hindering), Improved_Movement_Blocking=VALUES(Improved_Movement_Blocking), Improved_Movement_Destroy_Blocking=VALUES(Improved_Movement_Destroy_Blocking), Improved_Movement_Characters=VALUES(Improved_Movement_Characters), Improved_Movement_Move_Through=VALUES(Improved_Movement_Move_Through), Improved_Movement_Water=VALUES(Improved_Movement_Water), Improved_Movement_Indoor=VALUES(Improved_Movement_Indoor), Improved_Movement_Outdoor=VALUES(Improved_Movement_Outdoor), Improved_Targeting_Elevated=VALUES(Improved_Targeting_Elevated), Improved_Targeting_Hindering=VALUES(Improved_Targeting_Hindering), Improved_Targeting_Blocking=VALUES(Improved_Targeting_Blocking), Improved_Targeting_Characters=VALUES(Improved_Targeting_Characters), Improved_Targeting_Adjacent=VALUES(Improved_Targeting_Adjacent), Number_of_Targets=VALUES(Number_of_Targets);
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO Dial (Set_Abbreviation, Set_Name, Set_Number, Speed_Value_1, Speed_Value_2, Speed_Value_3, Speed_Value_4, Speed_Value_5, Speed_Value_6, Speed_Value_7, Speed_Value_8, Speed_Value_9, Speed_Value_10, Speed_Value_11, Speed_Value_12, Speed_Value_13, Speed_Value_14, Speed_Value_15, Speed_Value_16, Speed_Value_17, Speed_Value_18, Speed_Value_19, Speed_Value_20, Speed_Value_21, Speed_Value_22, Speed_Value_23, Speed_Value_24, Speed_Value_25, Speed_Value_26, Speed_Value_27, Speed_Value_28, Speed_Value_29, Speed_Value_30, Speed_Power_1, Speed_Power_2, Speed_Power_3, Speed_Power_4, Speed_Power_5, Speed_Power_6, Speed_Power_7, Speed_Power_8, Speed_Power_9, Speed_Power_10, Speed_Power_11, Speed_Power_12, Speed_Power_13, Speed_Power_14, Speed_Power_15, Speed_Power_16, Speed_Power_17, Speed_Power_18, Speed_Power_19, Speed_Power_20, Speed_Power_21, Speed_Power_22, Speed_Power_23, Speed_Power_24, Speed_Power_25, Speed_Power_26, Speed_Power_27, Speed_Power_28, Speed_Power_29, Speed_Power_30, Attack_Value_1, Attack_Value_2, Attack_Value_3, Attack_Value_4, Attack_Value_5, Attack_Value_6, Attack_Value_7, Attack_Value_8, Attack_Value_9, Attack_Value_10, Attack_Value_11, Attack_Value_12, Attack_Value_13, Attack_Value_14, Attack_Value_15, Attack_Value_16, Attack_Value_17, Attack_Value_18, Attack_Value_19, Attack_Value_20, Attack_Value_21, Attack_Value_22, Attack_Value_23, Attack_Value_24, Attack_Value_25, Attack_Value_26, Attack_Value_27, Attack_Value_28, Attack_Value_29, Attack_Value_30, Attack_Power_1, Attack_Power_2, Attack_Power_3, Attack_Power_4, Attack_Power_5, Attack_Power_6, Attack_Power_7, Attack_Power_8, Attack_Power_9, Attack_Power_10, Attack_Power_11, Attack_Power_12, Attack_Power_13, Attack_Power_14, Attack_Power_15, Attack_Power_16, Attack_Power_17, Attack_Power_18, Attack_Power_19, Attack_Power_20, Attack_Power_21, Attack_Power_22, Attack_Power_23, Attack_Power_24, Attack_Power_25, Attack_Power_26, Attack_Power_27, Attack_Power_28, Attack_Power_29, Attack_Power_30, Defense_Value_1, Defense_Value_2, Defense_Value_3, Defense_Value_4, Defense_Value_5, Defense_Value_6, Defense_Value_7, Defense_Value_8, Defense_Value_9, Defense_Value_10, Defense_Value_11, Defense_Value_12, Defense_Value_13, Defense_Value_14, Defense_Value_15, Defense_Value_16, Defense_Value_17, Defense_Value_18, Defense_Value_19, Defense_Value_20, Defense_Value_21, Defense_Value_22, Defense_Value_23, Defense_Value_24, Defense_Value_25, Defense_Value_26, Defense_Value_27, Defense_Value_28, Defense_Value_29, Defense_Value_30, Defense_Power_1, Defense_Power_2, Defense_Power_3, Defense_Power_4, Defense_Power_5, Defense_Power_6, Defense_Power_7, Defense_Power_8, Defense_Power_9, Defense_Power_10, Defense_Power_11, Defense_Power_12, Defense_Power_13, Defense_Power_14, Defense_Power_15, Defense_Power_16, Defense_Power_17, Defense_Power_18, Defense_Power_19, Defense_Power_20, Defense_Power_21, Defense_Power_22, Defense_Power_23, Defense_Power_24, Defense_Power_25, Defense_Power_26, Defense_Power_27, Defense_Power_28, Defense_Power_29, Defense_Power_30, Damage_Value_1, Damage_Value_2, Damage_Value_3, Damage_Value_4, Damage_Value_5, Damage_Value_6, Damage_Value_7, Damage_Value_8, Damage_Value_9, Damage_Value_10, Damage_Value_11, Damage_Value_12, Damage_Value_13, Damage_Value_14, Damage_Value_15, Damage_Value_16, Damage_Value_17, Damage_Value_18, Damage_Value_19, Damage_Value_20, Damage_Value_21, Damage_Value_22, Damage_Value_23, Damage_Value_24, Damage_Value_25, Damage_Value_26, Damage_Value_27, Damage_Value_28, Damage_Value_29, Damage_Value_30, Damage_Power_1, Damage_Power_2, Damage_Power_3, Damage_Power_4, Damage_Power_5, Damage_Power_6, Damage_Power_7, Damage_Power_8, Damage_Power_9, Damage_Power_10, Damage_Power_11, Damage_Power_12, Damage_Power_13, Damage_Power_14, Damage_Power_15, Damage_Power_16, Damage_Power_17, Damage_Power_18, Damage_Power_19, Damage_Power_20, Damage_Power_21, Damage_Power_22, Damage_Power_23, Damage_Power_24, Damage_Power_25, Damage_Power_26, Damage_Power_27, Damage_Power_28, Damage_Power_29, Damage_Power_30)
+  VALUES ('2099', '2099', '001', '8', '8', '7', '7', '6', '6', '6', '6', '5', '4', 'KO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Leap/Climb', 'Leap/Climb', 'Leap/Climb', 'Flurry', 'Flurry', 'Flurry', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '10', '10', '10', '10', '9', '9', '9', '8', '8', '7', 'KO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Super Strength', 'Super Strength', 'Super Strength', 'Super Strength', 'Super Strength', 'Super Strength', 'Super Strength', 'Super Strength', 'Quake', 'Quake', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '19', '18', '17', '16', '16', '16', '15', '15', '14', '13', 'KO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Invulnerability', 'Invulnerability', 'Impervious', 'Impervious', 'Invulnerability', 'Toughness', 'Toughness', 'Toughness', 'Regeneration', 'Regeneration', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4', '5', '4', '3', '3', '3', '3', '3', '3', '3', 'KO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Battle Fury', 'Battle Fury', 'Battle Fury', 'Close Combat Expert', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+  ON DUPLICATE KEY UPDATE Set_Name=VALUES(Set_Name), Speed_Value_1=VALUES(Speed_Value_1), Speed_Value_2=VALUES(Speed_Value_2), Speed_Value_3=VALUES(Speed_Value_3), Speed_Value_4=VALUES(Speed_Value_4), Speed_Value_5=VALUES(Speed_Value_5), Speed_Value_6=VALUES(Speed_Value_6), Speed_Value_7=VALUES(Speed_Value_7), Speed_Value_8=VALUES(Speed_Value_8), Speed_Value_9=VALUES(Speed_Value_9), Speed_Value_10=VALUES(Speed_Value_10), Speed_Value_11=VALUES(Speed_Value_11), Speed_Value_12=VALUES(Speed_Value_12), Speed_Value_13=VALUES(Speed_Value_13), Speed_Value_14=VALUES(Speed_Value_14), Speed_Value_15=VALUES(Speed_Value_15), Speed_Value_16=VALUES(Speed_Value_16), Speed_Value_17=VALUES(Speed_Value_17), Speed_Value_18=VALUES(Speed_Value_18), Speed_Value_19=VALUES(Speed_Value_19), Speed_Value_20=VALUES(Speed_Value_20), Speed_Value_21=VALUES(Speed_Value_21), Speed_Value_22=VALUES(Speed_Value_22), Speed_Value_23=VALUES(Speed_Value_23), Speed_Value_24=VALUES(Speed_Value_24), Speed_Value_25=VALUES(Speed_Value_25), Speed_Value_26=VALUES(Speed_Value_26), Speed_Value_27=VALUES(Speed_Value_27), Speed_Value_28=VALUES(Speed_Value_28), Speed_Value_29=VALUES(Speed_Value_29), Speed_Value_30=VALUES(Speed_Value_30), Speed_Power_1=VALUES(Speed_Power_1), Speed_Power_2=VALUES(Speed_Power_2), Speed_Power_3=VALUES(Speed_Power_3), Speed_Power_4=VALUES(Speed_Power_4), Speed_Power_5=VALUES(Speed_Power_5), Speed_Power_6=VALUES(Speed_Power_6), Speed_Power_7=VALUES(Speed_Power_7), Speed_Power_8=VALUES(Speed_Power_8), Speed_Power_9=VALUES(Speed_Power_9), Speed_Power_10=VALUES(Speed_Power_10), Speed_Power_11=VALUES(Speed_Power_11), Speed_Power_12=VALUES(Speed_Power_12), Speed_Power_13=VALUES(Speed_Power_13), Speed_Power_14=VALUES(Speed_Power_14), Speed_Power_15=VALUES(Speed_Power_15), Speed_Power_16=VALUES(Speed_Power_16), Speed_Power_17=VALUES(Speed_Power_17), Speed_Power_18=VALUES(Speed_Power_18), Speed_Power_19=VALUES(Speed_Power_19), Speed_Power_20=VALUES(Speed_Power_20), Speed_Power_21=VALUES(Speed_Power_21), Speed_Power_22=VALUES(Speed_Power_22), Speed_Power_23=VALUES(Speed_Power_23), Speed_Power_24=VALUES(Speed_Power_24), Speed_Power_25=VALUES(Speed_Power_25), Speed_Power_26=VALUES(Speed_Power_26), Speed_Power_27=VALUES(Speed_Power_27), Speed_Power_28=VALUES(Speed_Power_28), Speed_Power_29=VALUES(Speed_Power_29), Speed_Power_30=VALUES(Speed_Power_30), Attack_Value_1=VALUES(Attack_Value_1), Attack_Value_2=VALUES(Attack_Value_2), Attack_Value_3=VALUES(Attack_Value_3), Attack_Value_4=VALUES(Attack_Value_4), Attack_Value_5=VALUES(Attack_Value_5), Attack_Value_6=VALUES(Attack_Value_6), Attack_Value_7=VALUES(Attack_Value_7), Attack_Value_8=VALUES(Attack_Value_8), Attack_Value_9=VALUES(Attack_Value_9), Attack_Value_10=VALUES(Attack_Value_10), Attack_Value_11=VALUES(Attack_Value_11), Attack_Value_12=VALUES(Attack_Value_12), Attack_Value_13=VALUES(Attack_Value_13), Attack_Value_14=VALUES(Attack_Value_14), Attack_Value_15=VALUES(Attack_Value_15), Attack_Value_16=VALUES(Attack_Value_16), Attack_Value_17=VALUES(Attack_Value_17), Attack_Value_18=VALUES(Attack_Value_18), Attack_Value_19=VALUES(Attack_Value_19), Attack_Value_20=VALUES(Attack_Value_20), Attack_Value_21=VALUES(Attack_Value_21), Attack_Value_22=VALUES(Attack_Value_22), Attack_Value_23=VALUES(Attack_Value_23), Attack_Value_24=VALUES(Attack_Value_24), Attack_Value_25=VALUES(Attack_Value_25), Attack_Value_26=VALUES(Attack_Value_26), Attack_Value_27=VALUES(Attack_Value_27), Attack_Value_28=VALUES(Attack_Value_28), Attack_Value_29=VALUES(Attack_Value_29), Attack_Value_30=VALUES(Attack_Value_30), Attack_Power_1=VALUES(Attack_Power_1), Attack_Power_2=VALUES(Attack_Power_2), Attack_Power_3=VALUES(Attack_Power_3), Attack_Power_4=VALUES(Attack_Power_4), Attack_Power_5=VALUES(Attack_Power_5), Attack_Power_6=VALUES(Attack_Power_6), Attack_Power_7=VALUES(Attack_Power_7), Attack_Power_8=VALUES(Attack_Power_8), Attack_Power_9=VALUES(Attack_Power_9), Attack_Power_10=VALUES(Attack_Power_10), Attack_Power_11=VALUES(Attack_Power_11), Attack_Power_12=VALUES(Attack_Power_12), Attack_Power_13=VALUES(Attack_Power_13), Attack_Power_14=VALUES(Attack_Power_14), Attack_Power_15=VALUES(Attack_Power_15), Attack_Power_16=VALUES(Attack_Power_16), Attack_Power_17=VALUES(Attack_Power_17), Attack_Power_18=VALUES(Attack_Power_18), Attack_Power_19=VALUES(Attack_Power_19), Attack_Power_20=VALUES(Attack_Power_20), Attack_Power_21=VALUES(Attack_Power_21), Attack_Power_22=VALUES(Attack_Power_22), Attack_Power_23=VALUES(Attack_Power_23), Attack_Power_24=VALUES(Attack_Power_24), Attack_Power_25=VALUES(Attack_Power_25), Attack_Power_26=VALUES(Attack_Power_26), Attack_Power_27=VALUES(Attack_Power_27), Attack_Power_28=VALUES(Attack_Power_28), Attack_Power_29=VALUES(Attack_Power_29), Attack_Power_30=VALUES(Attack_Power_30), Defense_Value_1=VALUES(Defense_Value_1), Defense_Value_2=VALUES(Defense_Value_2), Defense_Value_3=VALUES(Defense_Value_3), Defense_Value_4=VALUES(Defense_Value_4), Defense_Value_5=VALUES(Defense_Value_5), Defense_Value_6=VALUES(Defense_Value_6), Defense_Value_7=VALUES(Defense_Value_7), Defense_Value_8=VALUES(Defense_Value_8), Defense_Value_9=VALUES(Defense_Value_9), Defense_Value_10=VALUES(Defense_Value_10), Defense_Value_11=VALUES(Defense_Value_11), Defense_Value_12=VALUES(Defense_Value_12), Defense_Value_13=VALUES(Defense_Value_13), Defense_Value_14=VALUES(Defense_Value_14), Defense_Value_15=VALUES(Defense_Value_15), Defense_Value_16=VALUES(Defense_Value_16), Defense_Value_17=VALUES(Defense_Value_17), Defense_Value_18=VALUES(Defense_Value_18), Defense_Value_19=VALUES(Defense_Value_19), Defense_Value_20=VALUES(Defense_Value_20), Defense_Value_21=VALUES(Defense_Value_21), Defense_Value_22=VALUES(Defense_Value_22), Defense_Value_23=VALUES(Defense_Value_23), Defense_Value_24=VALUES(Defense_Value_24), Defense_Value_25=VALUES(Defense_Value_25), Defense_Value_26=VALUES(Defense_Value_26), Defense_Value_27=VALUES(Defense_Value_27), Defense_Value_28=VALUES(Defense_Value_28), Defense_Value_29=VALUES(Defense_Value_29), Defense_Value_30=VALUES(Defense_Value_30), Defense_Power_1=VALUES(Defense_Power_1), Defense_Power_2=VALUES(Defense_Power_2), Defense_Power_3=VALUES(Defense_Power_3), Defense_Power_4=VALUES(Defense_Power_4), Defense_Power_5=VALUES(Defense_Power_5), Defense_Power_6=VALUES(Defense_Power_6), Defense_Power_7=VALUES(Defense_Power_7), Defense_Power_8=VALUES(Defense_Power_8), Defense_Power_9=VALUES(Defense_Power_9), Defense_Power_10=VALUES(Defense_Power_10), Defense_Power_11=VALUES(Defense_Power_11), Defense_Power_12=VALUES(Defense_Power_12), Defense_Power_13=VALUES(Defense_Power_13), Defense_Power_14=VALUES(Defense_Power_14), Defense_Power_15=VALUES(Defense_Power_15), Defense_Power_16=VALUES(Defense_Power_16), Defense_Power_17=VALUES(Defense_Power_17), Defense_Power_18=VALUES(Defense_Power_18), Defense_Power_19=VALUES(Defense_Power_19), Defense_Power_20=VALUES(Defense_Power_20), Defense_Power_21=VALUES(Defense_Power_21), Defense_Power_22=VALUES(Defense_Power_22), Defense_Power_23=VALUES(Defense_Power_23), Defense_Power_24=VALUES(Defense_Power_24), Defense_Power_25=VALUES(Defense_Power_25), Defense_Power_26=VALUES(Defense_Power_26), Defense_Power_27=VALUES(Defense_Power_27), Defense_Power_28=VALUES(Defense_Power_28), Defense_Power_29=VALUES(Defense_Power_29), Defense_Power_30=VALUES(Defense_Power_30), Damage_Value_1=VALUES(Damage_Value_1), Damage_Value_2=VALUES(Damage_Value_2), Damage_Value_3=VALUES(Damage_Value_3), Damage_Value_4=VALUES(Damage_Value_4), Damage_Value_5=VALUES(Damage_Value_5), Damage_Value_6=VALUES(Damage_Value_6), Damage_Value_7=VALUES(Damage_Value_7), Damage_Value_8=VALUES(Damage_Value_8), Damage_Value_9=VALUES(Damage_Value_9), Damage_Value_10=VALUES(Damage_Value_10), Damage_Value_11=VALUES(Damage_Value_11), Damage_Value_12=VALUES(Damage_Value_12), Damage_Value_13=VALUES(Damage_Value_13), Damage_Value_14=VALUES(Damage_Value_14), Damage_Value_15=VALUES(Damage_Value_15), Damage_Value_16=VALUES(Damage_Value_16), Damage_Value_17=VALUES(Damage_Value_17), Damage_Value_18=VALUES(Damage_Value_18), Damage_Value_19=VALUES(Damage_Value_19), Damage_Value_20=VALUES(Damage_Value_20), Damage_Value_21=VALUES(Damage_Value_21), Damage_Value_22=VALUES(Damage_Value_22), Damage_Value_23=VALUES(Damage_Value_23), Damage_Value_24=VALUES(Damage_Value_24), Damage_Value_25=VALUES(Damage_Value_25), Damage_Value_26=VALUES(Damage_Value_26), Damage_Value_27=VALUES(Damage_Value_27), Damage_Value_28=VALUES(Damage_Value_28), Damage_Value_29=VALUES(Damage_Value_29), Damage_Value_30=VALUES(Damage_Value_30), Damage_Power_1=VALUES(Damage_Power_1), Damage_Power_2=VALUES(Damage_Power_2), Damage_Power_3=VALUES(Damage_Power_3), Damage_Power_4=VALUES(Damage_Power_4), Damage_Power_5=VALUES(Damage_Power_5), Damage_Power_6=VALUES(Damage_Power_6), Damage_Power_7=VALUES(Damage_Power_7), Damage_Power_8=VALUES(Damage_Power_8), Damage_Power_9=VALUES(Damage_Power_9), Damage_Power_10=VALUES(Damage_Power_10), Damage_Power_11=VALUES(Damage_Power_11), Damage_Power_12=VALUES(Damage_Power_12), Damage_Power_13=VALUES(Damage_Power_13), Damage_Power_14=VALUES(Damage_Power_14), Damage_Power_15=VALUES(Damage_Power_15), Damage_Power_16=VALUES(Damage_Power_16), Damage_Power_17=VALUES(Damage_Power_17), Damage_Power_18=VALUES(Damage_Power_18), Damage_Power_19=VALUES(Damage_Power_19), Damage_Power_20=VALUES(Damage_Power_20), Damage_Power_21=VALUES(Damage_Power_21), Damage_Power_22=VALUES(Damage_Power_22), Damage_Power_23=VALUES(Damage_Power_23), Damage_Power_24=VALUES(Damage_Power_24), Damage_Power_25=VALUES(Damage_Power_25), Damage_Power_26=VALUES(Damage_Power_26), Damage_Power_27=VALUES(Damage_Power_27), Damage_Power_28=VALUES(Damage_Power_28), Damage_Power_29=VALUES(Damage_Power_29), Damage_Power_30=VALUES(Damage_Power_30);
+
